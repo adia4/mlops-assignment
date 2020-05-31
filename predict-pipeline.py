@@ -14,6 +14,11 @@ df = pd.read_csv("turnover.csv")
 df_dummy = pd.get_dummies(df, drop_first=True)
 df_dummy = df_dummy.drop('left',axis=1)
 
+# Adding some preprocessing
+df_dummy.loc[df_dummy.time_spend_company>5,'time_spend_company'] = 5
+df_dummy['satisfaction_level'] = (df_dummy['satisfaction_level']**1.5)
+
+#Modelling
 filename = 'finalized_model.sav'
 model = pickle.load(open(filename, 'rb'))
 df['predictions'] = model.predict(df_dummy)
